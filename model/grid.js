@@ -26,8 +26,8 @@ module.exports = function(gridSize) {
         grid[position] = information;
     };
 
-    self.columnSize = function() {
-        return columnSize;
+    self.columns = function() {
+        return alphabet.slice(0, columnSize);
     };
 
     self.rowSize = function() {
