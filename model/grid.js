@@ -34,23 +34,51 @@ module.exports = function(gridSize) {
         return rowSize;
     };
 
+    self.getPositionForAttack = function() {
+        var candidatePositions = [];
+
+        var incompletePositionsForShips = _.filter(grid, function(gridPosition) {
+            return grid[gridPosition] == "incomplete ship";
+        });
+
+        _.each(incompletePositionsForShips, function(gridPosition) {
+           candidatePositions.push(self.findAvailable(gridPosition));
+        });
+
+        if(candidatePositions.length == 0) {
+            candidatePositions.push(_.find(grid, function(position) {
+               return grid[position] == "not discovered";
+            })[0]);
+        }
+
+        return candidatePositions;
+    };
+
     self.findAvailable = function(position) {
         var positionInColumns = self.columns().indexOf(position.slice(0,1));
         var rowNumber = parseInt(position.slice(1, position.length));
 
-        var availablePosition = [];
+        var availablePositions = [];
 
         if (positionInColumns >= 0) {
-            availablePosition.push(self.columns()[positionInColumns - 1].toString() + rowNumber);
+            availablePositions.push(grid[positionInColumns - 1].toString() + rowNumber);
         }
 
         if (positionInColumns < self.columns().length) {
-            availablePosition.push(self.columns()[positionInColumns + 1].toString() + rowNumber);
+            availablePositions.push(grid[positionInColumns + 1].toString() + rowNumber);
         }
-        //
-        //if(rowNumber > 1) {
-        //    availablePosition.push(self.columns())
-        //}
+
+        if(rowNumber > 1) {
+            availablePositions.push(grid[positionInColumns].toString + (rowNumber - 1));
+        }
+
+        if(rowNumber < rowSize) {
+            availablePositions.push(grid[positionInColumns].toString + (rowNumber + 1));
+        }
+
+        return _.filter(availablePositions, function(position) {
+            return grid[position] != "not discovered";
+        });
     };
 
     return self;
