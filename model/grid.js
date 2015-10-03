@@ -39,7 +39,7 @@ module.exports = function (gridSize) {
 
         var incompletePositionsForShips = [];
 
-        return grid[Math.floor(Math.random()*grid.length)];
+        return _.shuffle(Object.keys(grid))[0];
     };
 
     self.findAvailable = function (position) {
