@@ -46,7 +46,7 @@ router.get('/MOVE', function (req, res, next) {
 });
 
 router.get('/STATE', function (req, res, next) {
-    res.send(opponentsGrid);
+    res.send(opponentsGrid.grid);
     res.status(200);
 });
 
