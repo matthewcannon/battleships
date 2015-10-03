@@ -28,5 +28,15 @@ describe("it", function() {
        expect(positionForAttack).toEqual(["B2", "A1"]);
    });
 
+   it("with mines", function() {
+       var grid = new Grid("B2");
+       grid.setPosition("A2", "incomplete ship");
+       grid.setPosition("A1", "mine")
+
+       var positionForAttack = grid.getPositionForAttack();
+
+       expect(positionForAttack).toEqual(["B2"]);
+   });
+
 
 });

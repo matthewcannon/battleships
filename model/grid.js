@@ -81,11 +81,9 @@ module.exports = function (gridSize) {
             availablePositions.push(self.columns()[positionInColumns] + (rowNumber + 1).toString());
         }
 
-        return availablePositions;
-
-        //return _.filter(availablePositions, function(position) {
-        //    return grid[position] != "not discovered";
-        //});
+        return _.filter(availablePositions, function(position) {
+            return grid[position] == "not discovered";
+        });
     };
 
     return self;
