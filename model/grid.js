@@ -34,5 +34,20 @@ module.exports = function(gridSize) {
         return rowSize;
     };
 
+    self.findAvailable = function(position) {
+        var positionInColumns = self.columns().indexOf(position.slice(0,1));
+        var rowNumber = parseInt(position.slice(1, position.length));
+
+        var availablePosition = [];
+
+        if (positionInColumns >= 0) {
+            availablePosition.push(self.columns()[positionInColumns - 1].toString() + rowNumber);
+        }
+
+        if (positionInColumns <= self.columns().length) {
+            availablePosition.push(self.columns()[positionInColumns + 1].toString() + rowNumber);
+        }
+    };
+
     return self;
 };
