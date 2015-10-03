@@ -86,5 +86,7 @@ module.exports = function (gridSize) {
         });
     };
 
+    self.grid = self;
+
     return self;
 };
