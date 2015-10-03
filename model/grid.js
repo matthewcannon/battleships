@@ -45,7 +45,7 @@ module.exports = function (gridSize) {
             });
         }
 
-        if (incompletePositionsForShips != undefined) {
+        if (incompletePositionsForShips != undefined && incompletePositionsForShips.length > 0) {
 
             candidatePositions.push(self.findAvailable(incompletePositionsForShips));
 
