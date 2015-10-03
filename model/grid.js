@@ -39,7 +39,7 @@ module.exports = function (gridSize) {
 
         var incompletePositionsForShips = [];
 
-        if(Math.random() < 0.5) {
+        if(Math.random() < 0.1) {
             incompletePositionsForShips = _.findLast(Object.keys(grid), function (position) {
                 return grid[position] == "incomplete ship";
             });
