@@ -1,0 +1,4 @@
+node_modules/
+.idea/
+battleships.iml
+npm-debug.log
