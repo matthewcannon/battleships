@@ -1,6 +1,7 @@
 var _ = require('lodash');
 
 module.exports = function(gridSize) {
+    var self = this;
 
     var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
         'O', 'P', 'Q', 'R', 'S', 'T', 'U','V', 'W', 'X', 'Y', 'Z'];
@@ -23,5 +24,7 @@ module.exports = function(gridSize) {
 
     self.setPosition = function(position, information) {
         grid[position] = information;
-    }
+    };
+
+    return self;
 };

@@ -6,15 +6,16 @@ var start, ships, moveNumber;
 var ugly = ['A1', 'B1', 'C1', 'D1', 'E1'];
 var columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'];
 var rows;
+var Grid = require('../model/grid');
+
+var opponentsGrid;
 
 router.post('/START', function(req, res, next) {
     start = req.body;
     ships = start.ships;
     rows = start.gridSize.substr(1, 3);
 
-    _.each(ships, function(ship) {
-        console.log(ship);
-    });
+    opponentsGrid = new Grid(start.gridSize);
 
     moveNumber = 0;
 
@@ -26,7 +27,7 @@ router.get('/PLACE', function(req, res, next) {
     var shipPosition = {
         gridReference: ugly[0],
         orientation: 'horizontal'
-    }
+    };
 
     ugly.splice(0, 1);
 
