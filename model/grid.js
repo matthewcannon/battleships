@@ -45,7 +45,7 @@ module.exports = function (gridSize) {
 
             candidatePositions.push(self.findAvailable(incompletePositionsForShips));
 
-            return _.flatten(candidatePositions);
+            return _.first(_.flatten(candidatePositions));
 
         } else {
             var first = _.first(Object.keys(grid), function (pos) {
@@ -53,7 +53,7 @@ module.exports = function (gridSize) {
             });
 
             candidatePositions.push(first);
-            return candidatePositions;
+            return _.first(candidatePositions);
         }
     };
 
