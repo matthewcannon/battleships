@@ -9,7 +9,7 @@ var Grid = require('../model/grid');
 
 var opponentsGrid;
 
-router.post('/START', function(req, res, next) {
+router.post('/START', function (req, res, next) {
     start = req.body;
     ships = start.ships;
     rows = start.gridSize.substr(1, 3);
@@ -22,7 +22,7 @@ router.post('/START', function(req, res, next) {
     res.send('');
 });
 
-router.get('/PLACE', function(req, res, next) {
+router.get('/PLACE', function (req, res, next) {
     var shipPosition = {
         gridReference: ugly[0],
         orientation: 'horizontal'
@@ -34,7 +34,7 @@ router.get('/PLACE', function(req, res, next) {
     res.send(shipPosition);
 });
 
-router.get('/MOVE', function(req, res, next) {
+router.get('/MOVE', function (req, res, next) {
     console.log(moveNumber);
 
     attackMove(res, moveNumber, opponentsGrid);
@@ -44,41 +44,66 @@ router.get('/MOVE', function(req, res, next) {
     res.status(200);
 });
 
-router.get('/STATE', function(req, res, next) {
-    res.send(opponentsGrid);
-    res.status(200);
+router.get('/STATE', function (req, res, next) {
+    var placeInfo = req.body;
+
+    _.each(placeInfo.gridReferences, function (reference) {
+        ourGrid.setPosition(reference, "ship");
+    });
 });
 
-router.post('/PLACE', function(req, res, next) {
+router.post('/PLACE', function (req, res, next) {
     console.log(req.body);
 
     res.status(200);
 });
 
-router.post('/HIT', function(req, res, next) {
-    console.log(req.body);
+router.post('/HIT', function (req, res, next) {
+    var attackInformation = req.body;
 
-    res.status(200);
-    res.send('');
-});
-
-router.post('/MISS', function(req, res, next) {
-    console.log(req.body);
-
-    res.status(200);
-    res.send('');
-
-});
-
-router.post('/SCAN', function(req, res, next) {
-    console.log(req.body);
+    if (attackInformation.attacker == 'titanic') {
+        opponentsGrid.setPosition(attackInformation.gridReference, "incomplete ship");
+    } else {
+        ourGrid.setPosition(attackInformation.gridReference, "incomplete ship");
+    }
 
     res.status(200);
     res.send('');
 });
 
-router.post('/HIT_MINE', function(req, res, next) {
-    console.log(req.body);
+router.post('/MISS', function (req, res, next) {
+    var attackInformation = req.body;
+
+    if (attackInformation.attacker == 'titanic') {
+        opponentsGrid.setPosition(attackInformation.gridReference, "missed");
+    } else {
+        ourGrid.setPosition(attackInformation.gridReference, "missed");
+    }
+
+    res.status(200);
+    res.send('');
+
+});
+
+router.post('/SCAN', function (req, res, next) {
+    var attackInformation = req.body;
+
+    _.each(attackInformation.gridReferences, function (reference) {
+        opponentsGrid.setPosition(reference, "mine");
+    });
+
+    res.status(200);
+    res.send('');
+});
+
+router.post('/HIT_MINE', function (req, res, next) {
+    var attackInformation = req.body;
+
+    if (attackInformation.attacker == 'titanic') {
+        opponentsGrid.setPosition(attackInformation.gridReference, "mine");
+    } else {
+        ourGrid.setPosition(attackInformation.gridReference, "mine");
+    }
 
     res.status(200);
     res.send('');
