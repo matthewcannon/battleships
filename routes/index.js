@@ -44,6 +44,11 @@ router.get('/MOVE', function(req, res, next) {
     res.status(200);
 });
 
+router.get('/STATE', function(req, res, next) {
+    res.send(opponentsGrid);
+    res.status(200);
+});
+
 router.post('/PLACE', function(req, res, next) {
     console.log(req.body);
 
