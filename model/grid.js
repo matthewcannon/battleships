@@ -39,33 +39,7 @@ module.exports = function (gridSize) {
 
         var incompletePositionsForShips = [];
 
-        if(Math.random() < 0.5) {
-            incompletePositionsForShips = _.findLast(Object.keys(grid), function (position) {
-                return grid[position] == "incomplete ship";
-            });
-        }
-
-        if (incompletePositionsForShips != undefined && incompletePositionsForShips.length > 0) {
-
-            candidatePositions.push(self.findAvailable(incompletePositionsForShips));
-
-            if(candidatePositions.length > 0) {
-
-                return _.first(_.flatten(candidatePositions));
-            } else {
-                return _.first(Object.keys(grid), function (pos) {
-                    return grid[pos] == "not discovered";
-                });
-            }
-
-        } else {
-            var first = _.first(Object.keys(grid), function (pos) {
-                return grid[pos] == "not discovered";
-            });
-
-            candidatePositions.push(first);
-            return _.first(candidatePositions);
-        }
+        return grid[Math.floor(Math.random()*grid.length)];
     };
 
     self.findAvailable = function (position) {
