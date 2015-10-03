@@ -37,10 +37,14 @@ module.exports = function (gridSize) {
     self.getPositionForAttack = function () {
         var candidatePositions = [];
 
-        var incompletePositionsForShips = _.findLast(Object.keys(grid), function (position) {
-            return grid[position] == "incomplete ship";
-        });
+        var incompletePositionsForShips = [];
 
+        if(Math.random(10) < 5) {
+            incompletePositionsForShips = _.findLast(Object.keys(grid), function (position) {
+                return grid[position] == "incomplete ship";
+            });
+        }
+        
         if (incompletePositionsForShips) {
 
             candidatePositions.push(self.findAvailable(incompletePositionsForShips));
