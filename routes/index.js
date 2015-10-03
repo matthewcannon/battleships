@@ -45,15 +45,16 @@ router.get('/MOVE', function (req, res, next) {
 });
 
 router.get('/STATE', function (req, res, next) {
+    res.send(opponentsGrid);
+    res.status(200);
+});
+
+router.post('/PLACE', function (req, res, next) {
     var placeInfo = req.body;
 
     _.each(placeInfo.gridReferences, function (reference) {
         ourGrid.setPosition(reference, "ship");
     });
-});
-
-router.post('/PLACE', function (req, res, next) {
-    console.log(req.body);
 
     res.status(200);
 });
