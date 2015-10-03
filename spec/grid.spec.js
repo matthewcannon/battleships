@@ -19,5 +19,14 @@ describe("it", function() {
        expect(positionForAttack).toEqual(["A1", "B2"]);
    });
 
+   it("with other incomplete ship", function() {
+       var grid = new Grid("B2");
+       grid.setPosition("A2", "incomplete ship");
+
+       var positionForAttack = grid.getPositionForAttack();
+
+       expect(positionForAttack).toEqual(["B2", "A1"]);
+   });
+
 
 });

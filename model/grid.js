@@ -61,28 +61,25 @@ module.exports = function (gridSize) {
         var originalPosition = position;
         var positionInColumns = self.columns().indexOf(position.slice(0, 1));
 
-        var rowNumber = originalPosition.substr(1, 3);
-        
+        var rowNumber = parseInt(originalPosition.substr(1, 3));
+
         var availablePositions = [];
 
-        if (positionInColumns >= 0) {
+        if (positionInColumns > 0) {
             availablePositions.push(self.columns()[positionInColumns - 1] + rowNumber);
         }
 
-        //if (positionInColumns < self.columns().length) {
-        //    availablePositions.push(self.columns()[positionInColumns + 1] + rowNumber);
-        //}
-        //
-        //if(rowNumber > 1) {
-        //    availablePositions.push(self.columns()[positionInColumns] + (rowNumber - 1).toString());
-        //}
+        if (positionInColumns < self.columns().length -1) {
+            availablePositions.push(self.columns()[positionInColumns + 1] + rowNumber);
+        }
 
-        //if (rowNumber < rowSize) {
-        //    console.log(self.columns() + "  ALL THE COLUMNS");
-        //    console.log(positionInColumns + " Position");
-        //    console.log(self.columns()[positionInColumns - 1] + " COL NR");
-        //    availablePositions.push(self.columns()[positionInColumns] + (rowNumber + 1).toString());
-        //}
+        if(rowNumber > 1) {
+            availablePositions.push(self.columns()[positionInColumns] + (rowNumber - 1).toString());
+        }
+
+        if (rowNumber < rowSize) {
+            availablePositions.push(self.columns()[positionInColumns] + (rowNumber + 1).toString());
+        }
 
         return availablePositions;
 
