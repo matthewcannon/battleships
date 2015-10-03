@@ -46,9 +46,9 @@ module.exports = function(gridSize) {
         });
 
         if(candidatePositions.length == 0) {
-            candidatePositions.push(_.find(grid, function(position) {
+            candidatePositions.push(_.find(Object.keys(grid), function(position) {
                return grid[position] == "not discovered";
-            })[0]);
+            }));
         }
 
         return candidatePositions;
