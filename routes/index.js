@@ -8,7 +8,7 @@ var columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'];
 var rows;
 var Grid = require('../model/grid');
 
-var opponentsGrid;
+var opponentsGrid, ourGrid;
 
 router.post('/START', function (req, res, next) {
     start = req.body;
@@ -16,6 +16,7 @@ router.post('/START', function (req, res, next) {
     rows = start.gridSize.substr(1, 3);
 
     opponentsGrid = new Grid(start.gridSize);
+    ourGrid = new Grid(start.gridSize);
 
     moveNumber = 0;
 
@@ -46,7 +47,11 @@ router.get('/MOVE', function (req, res, next) {
 });
 
 router.post('/PLACE', function (req, res, next) {
-    console.log(req.body);
+    var placeInfo = req.body;
+
+    _.each(placeInfo.gridReferences, function (reference) {
+        ourGrid.setPosition(reference, "ship");
+    });
 
     res.status(200);
 });
@@ -56,6 +61,8 @@ router.post('/HIT', function (req, res, next) {
 
     if (attackInformation.attacker == 'titanic') {
         opponentsGrid.setPosition(attackInformation.gridReference, "incomplete ship");
+    } else {
+        ourGrid.setPosition(attackInformation.gridReference, "incomplete ship");
     }
 
     res.status(200);
@@ -67,6 +74,8 @@ router.post('/MISS', function (req, res, next) {
 
     if (attackInformation.attacker == 'titanic') {
         opponentsGrid.setPosition(attackInformation.gridReference, "missed");
+    } else {
+        ourGrid.setPosition(attackInformation.gridReference, "missed");
     }
 
     res.status(200);
@@ -90,6 +99,8 @@ router.post('/HIT_MINE', function (req, res, next) {
 
     if (attackInformation.attacker == 'titanic') {
         opponentsGrid.setPosition(attackInformation.gridReference, "mine");
+    } else {
+        ourGrid.setPosition(attackInformation.gridReference, "mine");
     }
 
     res.status(200);
