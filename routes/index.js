@@ -1,15 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
-
+var attackMove = require('../lib/attackMove');
 var start, ships, moveNumber;
-
 var ugly = ['A1', 'B1', 'C1', 'D1', 'E1'];
 var columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'];
+var rows;
 
 router.post('/START', function(req, res, next) {
     start = req.body;
     ships = start.ships;
+    rows = start.gridSize.substr(1, 3);
 
     _.each(ships, function(ship) {
         console.log(ship);
@@ -34,15 +35,13 @@ router.get('/PLACE', function(req, res, next) {
 });
 
 router.get('/MOVE', function(req, res, next) {
-    var columnPos = moveNumber % columns.length;
-    res.send({
-        type: "ATTACK",
-        gridReference: columns[columnPos] + "1"
-    });
     console.log(moveNumber);
 
-    res.status(200);
+    attackMove(res, moveNumber, columns, rows);
+
     ++moveNumber;
+
+    res.status(200);
 });
 
 router.post('/PLACE', function(req, res, next) {
