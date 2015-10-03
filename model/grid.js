@@ -37,7 +37,7 @@ module.exports = function (gridSize) {
     self.getPositionForAttack = function () {
         var candidatePositions = [];
 
-        var incompletePositionsForShips = _.find(Object.keys(grid), function (position) {
+        var incompletePositionsForShips = _.findLast(Object.keys(grid), function (position) {
             return grid[position] == "incomplete ship";
         });
 
@@ -52,7 +52,7 @@ module.exports = function (gridSize) {
                 return _.first(Object.keys(grid), function (pos) {
                     return grid[pos] == "not discovered";
                 });
-            }   
+            }
 
         } else {
             var first = _.first(Object.keys(grid), function (pos) {
