@@ -7,7 +7,7 @@ var ugly = ['A1', 'B1', 'C1', 'D1', 'E1'];
 var rows;
 var Grid = require('../model/grid');
 
-var opponentsGrid;
+var opponentsGrid, ourGrid;
 
 router.post('/START', function (req, res, next) {
     start = req.body;
