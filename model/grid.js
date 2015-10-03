@@ -1,84 +1,94 @@
 var _ = require('lodash');
 
-module.exports = function(gridSize) {
+module.exports = function (gridSize) {
     var self = this;
 
     var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-        'O', 'P', 'Q', 'R', 'S', 'T', 'U','V', 'W', 'X', 'Y', 'Z'];
+        'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
-    var columnSize = alphabet.indexOf(gridSize.slice(0,1)) + 1;
+    var columnSize = alphabet.indexOf(gridSize.slice(0, 1)) + 1;
     var rowSize = parseInt(gridSize.slice(1, gridSize.length));
 
     var grid = {};
 
-    _.each(alphabet.slice(0, columnSize), function(column) {
+    _.each(alphabet.slice(0, columnSize), function (column) {
         for (i = 1; i < rowSize + 1; i++) {
             var position = column.toString() + i;
             grid[position] = "not discovered";
         }
     });
 
-    self.getPosition = function(position) {
+    self.getPosition = function (position) {
         return grid[position];
     };
 
-    self.setPosition = function(position, information) {
+    self.setPosition = function (position, information) {
         grid[position] = information;
     };
 
-    self.columns = function() {
+    self.columns = function () {
         return alphabet.slice(0, columnSize);
     };
 
-    self.rowSize = function() {
+    self.rowSize = function () {
         return rowSize;
     };
 
-    self.getPositionForAttack = function() {
+    self.getPositionForAttack = function () {
         var candidatePositions = [];
 
-        var incompletePositionsForShips = _.filter(grid, function(gridPosition) {
-            return grid[gridPosition] == "incomplete ship";
+        var incompletePositionsForShips = _.find(Object.keys(grid), function (position) {
+            return grid[position] == "incomplete ship";
         });
 
-        _.each(incompletePositionsForShips, function(gridPosition) {
-           candidatePositions.push(self.findAvailable(gridPosition));
-        });
+        if (incompletePositionsForShips) {
 
-        if(candidatePositions.length == 0) {
-            candidatePositions.push(_.find(Object.keys(grid), function(position) {
-               return grid[position] == "not discovered";
-            }));
+            candidatePositions.push(self.findAvailable(incompletePositionsForShips));
+
+            return _.flatten(candidatePositions);
+
+        } else {
+            var first = _.first(Object.keys(grid), function (pos) {
+                return grid[pos] == "not discovered";
+            });
+
+            candidatePositions.push(first);
+            return candidatePositions;
         }
-
-        return candidatePositions;
     };
 
-    self.findAvailable = function(position) {
-        var positionInColumns = self.columns().indexOf(position.slice(0,1));
-        var rowNumber = parseInt(position.slice(1, position.length));
+    self.findAvailable = function (position) {
+        var originalPosition = position;
+        var positionInColumns = self.columns().indexOf(position.slice(0, 1));
 
+        var rowNumber = originalPosition.substr(1, 3);
+        
         var availablePositions = [];
 
         if (positionInColumns >= 0) {
-            availablePositions.push(grid[positionInColumns - 1].toString() + rowNumber);
+            availablePositions.push(self.columns()[positionInColumns - 1] + rowNumber);
         }
 
-        if (positionInColumns < self.columns().length) {
-            availablePositions.push(grid[positionInColumns + 1].toString() + rowNumber);
-        }
+        //if (positionInColumns < self.columns().length) {
+        //    availablePositions.push(self.columns()[positionInColumns + 1] + rowNumber);
+        //}
+        //
+        //if(rowNumber > 1) {
+        //    availablePositions.push(self.columns()[positionInColumns] + (rowNumber - 1).toString());
+        //}
 
-        if(rowNumber > 1) {
-            availablePositions.push(grid[positionInColumns].toString + (rowNumber - 1));
-        }
+        //if (rowNumber < rowSize) {
+        //    console.log(self.columns() + "  ALL THE COLUMNS");
+        //    console.log(positionInColumns + " Position");
+        //    console.log(self.columns()[positionInColumns - 1] + " COL NR");
+        //    availablePositions.push(self.columns()[positionInColumns] + (rowNumber + 1).toString());
+        //}
 
-        if(rowNumber < rowSize) {
-            availablePositions.push(grid[positionInColumns].toString + (rowNumber + 1));
-        }
+        return availablePositions;
 
-        return _.filter(availablePositions, function(position) {
-            return grid[position] != "not discovered";
-        });
+        //return _.filter(availablePositions, function(position) {
+        //    return grid[position] != "not discovered";
+        //});
     };
 
     return self;

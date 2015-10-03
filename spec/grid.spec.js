@@ -10,13 +10,13 @@ describe("it", function() {
        expect(positionForAttack).toEqual(["A1"]);
    });
 
-   it("bla", function() {
+   it("with incomplete ship", function() {
        var grid = new Grid("B2");
        grid.setPosition("B1", "incomplete ship");
 
        var positionForAttack = grid.getPositionForAttack();
 
-       expect(positionForAttack).toEqual(["A1", "A2", "B2"]);
+       expect(positionForAttack).toEqual(["A1", "B2"]);
    });
 
 
