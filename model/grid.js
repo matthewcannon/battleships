@@ -44,9 +44,13 @@ module.exports = function(gridSize) {
             availablePosition.push(self.columns()[positionInColumns - 1].toString() + rowNumber);
         }
 
-        if (positionInColumns <= self.columns().length) {
+        if (positionInColumns < self.columns().length) {
             availablePosition.push(self.columns()[positionInColumns + 1].toString() + rowNumber);
         }
+        //
+        //if(rowNumber > 1) {
+        //    availablePosition.push(self.columns())
+        //}
     };
 
     return self;
