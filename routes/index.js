@@ -39,7 +39,7 @@ router.get('/PLACE', function (req, res, next) {
 router.get('/MOVE', function (req, res, next) {
     console.log(moveNumber);
 
-    attackMove(res, moveNumber, columns, rows);
+    attackMove(res, moveNumber, opponentsGrid.columns(), opponentsGrid.rowSize());
 
     ++moveNumber;
 
