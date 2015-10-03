@@ -15,6 +15,7 @@ router.post('/START', function (req, res, next) {
     rows = start.gridSize.substr(1, 3);
 
     opponentsGrid = new Grid(start.gridSize);
+    ourGrid = new Grid(start.gridSize);
 
     moveNumber = 0;
 
